@@ -3,6 +3,7 @@ package com.example.prack
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.emptyLongSet
 import com.example.prack.databinding.ActivityMainBinding
@@ -12,6 +13,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val viewModel: PostViewModel by viewModels()
+        viewModel.data.observe(this) {post ->
+            with(binding){
+                author.text = post.author
+                published.text = post.published
+                content.text = post.content
+                like.setImageResource(
+                    if(post.likeByMe) R.drawable.icons8_24__1_ else R.drawable.icons8_32
+                )
+            }
+        }
+        binding.like.setOnClickListener{
+            viewModel.like()
+        }
 
         val post = Post(
             id = 1,
