@@ -4,6 +4,6 @@ import androidx.lifecycle.ViewModel
 
 class PostViewModel :ViewModel() {
     private  val repository: PostRepository = PostRepositoryImMemoryImpl()
-    val data = repository.get()
-    fun like() = repository.like()
+    val data = repository.getAll()
+    fun likeById(id: Long) = repository.likeById(id)
 }
