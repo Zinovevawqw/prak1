@@ -1,11 +1,16 @@
 package com.example.prack
 
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prack.databinding.ActivityPostCardBinding
 
-class PostViewHolder (
+class PostViewHolder(
     private val binding: ActivityPostCardBinding,
     private val onLikeListener: OnLikeListener,
+    private val onRemoveListener: OnRemoveListener,
+    private val onInteractionListener: OnInteractionListener,
+
+
     ): RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
@@ -46,9 +51,27 @@ class PostViewHolder (
                 post.repost = post.repost + 1
                 repost.text = formatNumber(post.repost)
             }
+
+            menu.setOnClickListener {
+                PopupMenu(it.context, it).apply {
+                    inflate(R.menu.menu)
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.remove ->{
+                                onRemoveListener(post)
+                                true
+                            }
+                            R.id.edit -> {
+                                onInteractionListener.onEdit(post)
+                                true
+                            }
+                            else -> false
+                        }
+                    }
+                }.show()
+            }
         }
     }
-
 
     private fun formatNumber(number: Int): String {
         return when {

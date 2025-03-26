@@ -1,39 +1,87 @@
 package com.example.prack
 
+import android.content.Context
 import android.os.Bundle
-import android.widget.ImageButton
-import androidx.activity.enableEdgeToEdge
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.collection.emptyLongSet
 import com.example.prack.databinding.ActivityMainBinding
-import com.example.prack.databinding.ActivityPostCardBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val viewModel: PostViewModel by viewModels()
-        val adapter = PostsAdapter {
-            viewModel.likeById(it.id)
-        }
+        val adapter = PostsAdapter(
+            onLikeListener = { post -> viewModel.likeById(post.id) },
+            onRemoveListener = { post -> viewModel.removeById(post.id) },
+            object : OnInteractionListener {
+                override fun onEdit(post: Post) {
+                    binding.content.visibility = View.VISIBLE
+                    viewModel.edit(post)
+                }
+
+                override fun onLike(post: Post) {
+                    viewModel.likeById(post.id)
+                }
+
+                override fun onRemove(post: Post) {
+                    viewModel.removeById(post.id)
+                }
+            }
+        )
+
+
         binding.list.adapter = adapter
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
         }
+
+        binding.save.setOnClickListener{
+            with(binding.content){
+                if (text.isNullOrBlank()){
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Content can't be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+                viewModel.changeContent(text.toString())
+                viewModel.save()
+
+                setText("")
+                clearFocus()
+                AndroidUtils.hideKeyboard(this)
+            }
+        }
+        viewModel.edited.observe(this){post ->
+            if (post.id ==0L){
+                return@observe
+            }
+            with(binding.content){
+                requestFocus()
+                setText(post.content)
+            }
+        }
     }
 }
 
-val post = Post(
-    id = 1,
-    author = "БТПИТ",
-    content = "Борисоглебский техникум промышленных и информационных технологий Общежитие Государственный Бюджетные места Лицензия/аккредитация ГБПОУ ВО «БТПИТ» образовано в соответствии с постановлением правительства Воронежской области от 20 мая 2015 года № 401 в результате реорганизации в форме слияния государственного образовательного бюджетного учреждения среднего профессионального образования Воронежской области «Борисоглебский индустриальный техникум», государственного образовательного бюджетного учреждения среднего профессионального образования Воронежской области «Борисоглебский техникум информатики и вычислительной техники» и государственного образовательного бюджетного учреждения начального профессионального образования Воронежской области «Профессиональное училище № 34 г. Борисоглебска», зарегистрировано в качестве юридического лица 11 сентября 2015 г.",
-    published = "18.03 в 11:40",
-    likeByMe = false,
-    repost = 990, likes = 999
-)
+object AndroidUtils {
+    fun hideKeyboard(view: View){
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken,0)
+    }
+}
+
+
+
 
 
 

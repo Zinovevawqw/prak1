@@ -62,7 +62,7 @@
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/menu"
         android:layout_width="27dp"
         android:layout_height="28dp"
         android:layout_marginStart="180dp"
@@ -111,7 +111,7 @@
         android:layout_marginStart="20dp"
         android:text="18.03 в 11:40"
         app:layout_constraintBottom_toTopOf="@+id/content"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/menu"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/author"
