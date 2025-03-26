@@ -1,8 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Prack" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.Prack" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    </style>
+    <style name="Theme.Praktikakotlin" parent="Base.Theme.Prack"></style>
+
+    <style name="Widget.AppTheme.LikeCheckBox" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="iconTint">@color/loke</item>
+        <item name="android:minWidth">?attr/minTouchTargetSize</item>
+        <item name="android:minHeight">?attr/minTouchTargetSize</item>
     </style>
 
     <style name="Theme.Prack" parent="Base.Theme.Prack" />

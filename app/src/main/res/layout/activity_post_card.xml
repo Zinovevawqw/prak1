@@ -77,22 +77,6 @@
         app:srcCompat="@drawable/icons8__24"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-    <ImageButton
-        android:id="@+id/like"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="48dp"
-        android:backgroundTint="#FBFBFB"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="@+id/content"
-        app:layout_constraintTop_toBottomOf="@+id/content"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/icons8_32"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
@@ -162,11 +146,28 @@
         android:id="@+id/likes"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
-        android:layout_marginEnd="252dp"
+        android:layout_marginEnd="244dp"
 
         app:layout_constraintBottom_toBottomOf="@+id/like"
         app:layout_constraintEnd_toStartOf="@+id/imageButton3"
         app:layout_constraintTop_toTopOf="@+id/like"
-        app:layout_constraintVertical_bias="0.428" />
+        app:layout_constraintVertical_bias="0.586" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/like"
+        style="@style/Widget.AppTheme.LikeCheckBox"
+        android:layout_width="36dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="28dp"
+        android:background="@null"
+        android:checkable="true"
+        android:contentDescription="Like"
+        app:icon="@drawable/icons8_24__1_"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
+        app:layout_constraintEnd_toStartOf="@+id/likes"
+        app:layout_constraintHorizontal_bias="0.285"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageButton2"
+        tools:ignore="MissingConstraints,NotSibling" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

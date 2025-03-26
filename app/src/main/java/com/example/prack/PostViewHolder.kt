@@ -6,50 +6,30 @@ import com.example.prack.databinding.ActivityPostCardBinding
 
 class PostViewHolder(
     private val binding: ActivityPostCardBinding,
-    private val onLikeListener: OnLikeListener,
-    private val onRemoveListener: OnRemoveListener,
+    private val onLikelistener: OnLikeListener,
+    private val onRepostListener: OnRepostListener,
     private val onInteractionListener: OnInteractionListener,
 
-
-    ): RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
             author.text = post.author
             published.text = post.published
-            content.text = post.content
-            like.setImageResource(
-                if (post.likeByMe) R.drawable.icons8_24__1_ else R.drawable.icons8_32
-            )
-            like.setOnClickListener {
-                onLikeListener(post)
-            }
-        }
-        with(binding) {
-            author.text = post.author
-            published.text = post.published
-            content.text = post.content
-            likes.text = formatNumber(post.likes)
             repost.text = formatNumber(post.repost)
-            if (post.likeByMe) {
-                like?.setImageResource(R.drawable.icons8_32)
-            }
-            like?.setOnClickListener {
-                post.likeByMe = !post.likeByMe
-                like.setImageResource(
-                    if (post.likeByMe) R.drawable.icons8_24__1_ else R.drawable.icons8_32
-                )
+            content.text = post.content
+            likes.text =  formatNumber(post.likes)
+            like.isChecked = post.likeByMe
+            like.setOnClickListener {
                 if (post.likeByMe) {
-                    post.likes = post.likes + 1
                     likes.text = formatNumber(post.likes)
                 } else {
-                    post.likes = post.likes - 1
                     likes.text = formatNumber(post.likes)
                 }
+                onLikelistener(post)
             }
-
-            imageButton2?.setOnClickListener {
-                post.repost = post.repost + 1
+            imageButton2.setOnClickListener {
                 repost.text = formatNumber(post.repost)
+                onRepostListener(post)
             }
 
             menu.setOnClickListener {
@@ -58,7 +38,7 @@ class PostViewHolder(
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.remove ->{
-                                onRemoveListener(post)
+                                onInteractionListener.onRemove(post)
                                 true
                             }
                             R.id.edit -> {

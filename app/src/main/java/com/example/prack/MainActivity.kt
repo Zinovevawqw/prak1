@@ -20,8 +20,8 @@ class MainActivity : AppCompatActivity() {
         val viewModel: PostViewModel by viewModels()
         val adapter = PostsAdapter(
             onLikeListener = { post -> viewModel.likeById(post.id) },
-            onRemoveListener = { post -> viewModel.removeById(post.id) },
-            object : OnInteractionListener {
+            onRepostListener = { post -> viewModel.repostById(post.id) },
+            onInteractionListener = object : OnInteractionListener {
                 override fun onEdit(post: Post) {
                     binding.content.visibility = View.VISIBLE
                     viewModel.edit(post)
@@ -31,13 +31,15 @@ class MainActivity : AppCompatActivity() {
                     viewModel.likeById(post.id)
                 }
 
+                override fun onRepost(post: Post) {
+                    viewModel.repostById(post.id)
+                }
+
                 override fun onRemove(post: Post) {
                     viewModel.removeById(post.id)
                 }
             }
         )
-
-
         binding.list.adapter = adapter
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
