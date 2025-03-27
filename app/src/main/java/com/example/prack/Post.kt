@@ -1,6 +1,5 @@
 package com.example.prack
 
-import android.net.ConnectivityDiagnosticsManager.DataStallReport
 
 data class Post (
     val id: Long,

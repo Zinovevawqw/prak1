@@ -1,11 +1,17 @@
 package com.example.prack
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class PostViewModel :ViewModel() {
-    private  val repository: PostRepository = PostRepositoryImMemoryImpl()
+class PostViewModel(application: Application) : AndroidViewModel(application){
+    // упрощённый вариант
+    private
+    val repository: PostRepository = PostRepositorySharedPrefsImpl(application)
     val data = repository.getAll()
+
 
     private val empty = Post(
         id = 0,
@@ -17,7 +23,7 @@ class PostViewModel :ViewModel() {
         repost = 0,
         video = ""
     )
-    val edited = MediatorLiveData(empty)
+    val edited = MutableLiveData(empty)
     fun save(){
         edited.value?.let {
             repository.save(it)
