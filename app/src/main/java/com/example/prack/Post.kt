@@ -9,5 +9,7 @@ data class Post (
     val published :String,
     var likeByMe: Boolean,
     var repost: Int,
-    var likes: Int
+    var likes: Int,
+
+    val video: String?
 )

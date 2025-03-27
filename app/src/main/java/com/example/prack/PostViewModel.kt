@@ -15,6 +15,7 @@ class PostViewModel :ViewModel() {
         published = "",
         likes = 0,
         repost = 0,
+        video = ""
     )
     val edited = MediatorLiveData(empty)
     fun save(){
@@ -28,14 +29,15 @@ class PostViewModel :ViewModel() {
         edited.value = post
     }
 
-    fun changeContent(content:String){
-        edited.value?.let {
-            val text= content.trim()
-            if(it.content == text){
-                return
-            }
-            edited.value = it.copy(content = text)
+    fun changeContentAndSave(content: String) {
+        val text = content.trim()
+        if (edited.value?.content == text) {
+            return
         }
+        edited.value?.let {
+            repository.save(it.copy(content = text))
+        }
+        edited.value = empty
     }
     fun likeById(id: Long) = repository.likeById(id)
     fun removeById(id:Long) = repository.removeById(id)

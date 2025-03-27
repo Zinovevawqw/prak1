@@ -16,7 +16,11 @@ class PostsAdapter(
     private val onRepostListener: OnRepostListener,
 
     ): ListAdapter<Post,PostViewHolder>(PostDiffCallback()) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PostViewHolder {
         val binding = ActivityPostCardBinding.inflate(LayoutInflater.from(parent.context),parent, false)
         return PostViewHolder(binding, onLikeListener , onRepostListener,onInteractionListener )
     }

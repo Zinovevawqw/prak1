@@ -1,5 +1,6 @@
 package com.example.prack
 
+import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prack.databinding.ActivityPostCardBinding
@@ -19,6 +20,16 @@ class PostViewHolder(
             content.text = post.content
             likes.text =  formatNumber(post.likes)
             like.isChecked = post.likeByMe
+
+            if (post.video == null){
+                videoView.visibility = View.GONE
+                playBtn.visibility = View.GONE
+            }
+
+            playBtn.setOnClickListener{
+                post.video?.let { it1 -> videoView.loadUrl(it1) }
+            }
+
             like.setOnClickListener {
                 if (post.likeByMe) {
                     likes.text = formatNumber(post.likes)
